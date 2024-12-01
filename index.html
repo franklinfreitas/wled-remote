@@ -2,16 +2,16 @@
 Enbrighten Remote - Web Based for WLED
 =====================================================
 Requirements: 
-	A webserver
-	If you are using ESP32 stle board with WLED, this provides you with direct REST API access.
-	The API endpoint (WLED) supports Cross-Origin Resource Sharing (CORS) requests from your browser.  
-		This allows the browser to make requests directly to the device without requiring an 
-		intermediary (like Flask).
-	If the device doesn’t provide a direct REST API, you might need Flask to build a backend 
-		that acts as a bridge between the browser and the device.
-	This is all designed to run LOCALLY (e.g. friends come over, scan a QR code, the local 
-		remote-control appears on phone, people can change colors)
-		
+  A webserver
+  If you are using ESP32 stle board with WLED, this provides you with direct REST API access.
+  The API endpoint (WLED) supports Cross-Origin Resource Sharing (CORS) requests from your browser.  
+    This allows the browser to make requests directly to the device without requiring an 
+    intermediary (like Flask).
+  If the device doesn’t provide a direct REST API, you might need Flask to build a backend 
+    that acts as a bridge between the browser and the device.
+  This is all designed to run LOCALLY (e.g. friends come over, scan a QR code, the local 
+    remote-control appears on phone, people can change colors)
+    
 Why the Embrighten "Cafelights" remote?
 =====================================================
 WLED, to my knowledge, provides no kiosk mode, or no multi user support.  This means family members
@@ -31,16 +31,16 @@ The Enbrighten Café Lights remote control fucntions
 On / Off: self explanitory.  State is stored so it knows when the lights are on and off.  Making this button a toggle.
 Fade: The lights will fade in and out through all of the colors in a random pattern.
 Dimming: Press the dimming button to choose one of 10 different light levels.  This works, but not as well as the real lights.  
-			With WLED you don't notice a brightness drop from 255 to 230 very much.  Each press drops brightness down about 25
-			points.  You notice the changes after a few presses.  After 10 presses you go back to 255.
+      With WLED you don't notice a brightness drop from 255 to 230 very much.  Each press drops brightness down about 25
+      points.  You notice the changes after a few presses.  After 10 presses you go back to 255.
 Strobe:  The lights will strobe through all of the colors in a random pattern.  WLED's strobe is a bit more "Rave / Club" strobe.
 2hr Timer: By pressing the 2 Hour Timer button, you will activate a two-hour countdown until lights turn off.
 4hr Timer: By pressing the 4 Hour Timer button, you will activate a four-hour countdown until lights turn off.
 Dual-Color Selection Feature
-	Color 1:  Select a color from the color pad, press Color 1
-	Color 2,  select a color from the color pad, press Color 2
-		This is just a segment.  Color1 and Color2 become varaibles.  These 2 values are thrown in a string with a predefined segment
-		length of 20 each 
+  Color 1:  Select a color from the color pad, press Color 1
+  Color 2,  select a color from the color pad, press Color 2
+    This is just a segment.  Color1 and Color2 become varaibles.  These 2 values are thrown in a string with a predefined segment
+    length of 20 each 
 Modes (with the official Embrighted color effect defination): 
 Press the “modes” button repeatedly to cycle through the following preset modes:
 Twinkle: A rainbow of colors, fading slowly and changing colors
@@ -54,650 +54,110 @@ Multi: all colors on the remote starting at upper-left, moving down, and ending 
 
 Some are obvious segments.  Some are up for interpretation (e.g. Twinkle and multi fade).  
 "Multi" would require 12 segments.  I'm not that psychotic. I just picked some multi-color preset and set speed to 0.
-	
+  
 -->
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Remote Control Interface</title>
-                <link rel="stylesheet" href="remote.css">
-			</head>
-			<body>
-				<div class="rounded-rectangle">
-					<button id="helpButton" class="help-icon">?</button>
-				</div>
-				<div id="overlay" class="overlay">
-					<div class="overlay-content">
-						<h2>Controls</h2>
-						<p>
-							<b>Fade:</b> Lights fade in and out through all of the colors in a random pattern.
-						</p>
-						<p>
-							<b>Dimming:</b> Lights dim through 10 steps then return to full brightness.
-						</p>
-						<p>
-							<b>Strobe:</b> Lights strobe through all of the colors in a random pattern.
-						</p>
-						<p>
-							<b>2hr Timer:</b> Activate a two-hour countdown until lights turn off
-						</p>
-						<p>
-							<b>4hr Timer:</b> Activate a four-hour countdown until lights turn off
-						</p>
-						<p>
-							<b>Dual-Color Selection Feature</b>
-						</p>
-						<p>
-							<b>Color 1:</b> Select a color from the color pad, press Color 1
-						</p>
-						<p>
-							<b>Color 2:</b> Select a color from the color pad, press Color 2
-						</p>
-						<p>
-							<b>Modes:</b> Press repeatedly to cycle through the following preset modes:
-						</p>
-						<p>Twinkle, Multi Fade, Christmas, St. Patrick's Day, Red White Blue, Fall, Spring, Multi</p>
-						<button id="closeOverlay" class="close-overlay">Close</button>
-					</div>
-				</div>
-				<div class="remote">
-					<div class="on-off">
-						<button class="button red" id="onOffButton">On/Off</button>
-					</div>
-					<div class="controlsR1">
-						<!-- Control Pad -->
-						<!-- Row 1 -->
-						<button class="button" id="fadeButton">Fade</button>
-						<button class="button" id="dimmingButton">Dimming</button>
-						<button class="button" id="strobeButton">Strobe</button>
-					</div>
-					<div class="controlsR2">
-						<!-- Row 2 -->
-						<button class="button" id="color1Button">Color1</button>
-						<div id="color1Status" class="status"></div>
-						<button class="button blank"></button>
-						<button class="button" id="2hrTimerButton">2 hr Timer</button>
-					</div>
-					<div class="controlsR3">
-						<!-- Row 3 -->
-						<button class="button" id="modesButton">Modes</button>
-						<div id="modesStatus" class="status"></div>
-					</div>
-					<div class="controlsR4">
-						<!-- Row 4 -->
-						<button class="button" id="color2Button">Color2</button>
-						<div id="color2Status" class="status"></div>
-						<button class="button blank"></button>
-						<button class="button" id="4hrTimerButton">4 hr Timer</button>
-					</div>
-					<div class="colorpad">
-						<!-- Color pad, 4 across -->
-						<!-- Row 1 -->
-						<button class="button UE-Red colorButton" data-hex="B6000D" id="UERedButton"></button>
-						<button class="button spanish-viridian colorButton" data-hex="008258" id="spanVeridButton"></button>
-						<button class="button resolution-blue colorButton" data-hex="001F7B" id="resoBlueButton"></button>
-						<button class="buttonALT red colorButton" data-hex="ff0000" id="altRedButton">Red</button>
-						<!-- Row 2 -->
-						<button class="button flame colorButton" data-hex="E24D00" id="flameButton"></button>
-						<button class="button blue-danube colorButton" data-hex="008AB6" id="blueDanButton"></button>
-						<button class="button navy-blue-bellflower colorButton" data-hex="181E48" id="navyBlueBellButton"></button>
-						<button class="buttonALT green colorButton" data-hex="008000"id= "altGreenButton">Green</button>
-						<!-- Row 3 -->
-						<button class="button harvest-gold colorButton" data-hex="E59000" id="harvestGoldButton"></button>
-						<button class="button honolulu-blue colorButton" data-hex="046EAD" id="honoBlueButton"></button>
-						<button class="button dark-purple colorButton" data-hex="391D40" id="darkPurpleButton"></button>
-						<button class="buttonALT blue colorButton" data-hex="0000ff" id="altBlueButton">Blue</button>
-						<!-- Row 4 -->
-						<button class="button citrine colorButton" data-hex="E4CB00" id="citrineButton"></button>
-						<button class="button bdazzled-blue colorButton" data-hex="01568D" id="bdazzledButton"></button>
-						<button class="button magenta colorButton" data-hex="C10F76" id="magentaButton"></button>
-						<button class="button white colorButton" data-hex="ffffff" id="whiteButton">White</button>
-					</div>
-				</div>
-				<script>
-
-// help icon
-// Get references to the help button, overlay, and close button
-const helpButton = document.getElementById('helpButton');
-const overlay = document.getElementById('overlay');
-const closeOverlay = document.getElementById('closeOverlay');
-
-// Show the overlay when the help button is clicked
-helpButton.addEventListener('click', () => {
-  overlay.style.display = 'flex'; 
-});
-
-// Hide the overlay when the close button is clicked
-closeOverlay.addEventListener('click', () => {
-  overlay.style.display = 'none';
-});
-
-
-
-
-					<!-- On Off Button Toggle-->
-let isOn = false; // Track the current state (off by default)
-
-// On/Off Button Toggle
-document.getElementById('onOffButton').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default anchor behavior
-
-    // Determine the new state based on the current state
-    const newState = isOn ? { on: false } : { on: true };
-
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newState) // Toggle the state
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Network response was not ok');
-        }
-    })
-    .then(data => {
-        console.log('Success:', data);
-        isOn = !isOn; // Update the state after a successful response
-        this.textContent = isOn ? "Turn Off" : "Turn On"; // Update button text
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-
-					<!-- Fade Button -->
-document.getElementById('fadeButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"on":true,"bri":255,"inputLevel":128,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[255,41,251],[0,0,0],[0,0,0]],"fx":8,"sx":41,"ix":94,"c1x":128,"c2x":128,"c3x":128,"pal":11,"sel":true,"rev":false,"rev2D":false,"mi":false,"rot2D":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Fade Success:', data))
-    .catch(error => console.error('Fade Error:', error));
-});
-
-
-					<!-- Dimming Button -->
-// Initialize the brightness variable
-let currentBrightness = 255; // Start at the maximum brightness
-const brightnessStep = Math.floor(255 / 10); // Divide 255 into 10 equal steps (25)
-
-// Add event listener to the dimming button
-document.getElementById('dimmingButton').addEventListener('click', function(event) {
-    event.preventDefault();
-
-    // Reduce brightness by one step
-    currentBrightness -= brightnessStep;
-
-    // Reset brightness to maximum if it goes below the minimum (0 or lower)
-    if (currentBrightness < 0) {
-        currentBrightness = 255;
-    }
-
-    // Make the POST request with the updated brightness value
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": currentBrightness }) // Dynamic brightness value
-    })
-    .then(response => response.json())
-    .then(data => console.log('Dimming Success:', data))
-    .catch(error => console.error('Dimming Error:', error));
-});
-
-
-					<!-- Strobe Button -->
-document.getElementById('strobeButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":[[0,0,255],[0,0,0],[0,0,0]],"fx":24,"sx":214,"ix":128,"pal":11,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Strobe Success:', data))
-    .catch(error => console.error('Strobe Error:', error));
-});
-
-
-
-					<!-- Timer Button for 2 Hours -->
-document.getElementById('2hrTimerButton').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default anchor behavior
-
-    const delayInMs = 7200000; // 2 hours in milliseconds
-
-    console.log('Timer set for 2 hours'); // Log timer start
-    setTimeout(() => {
-        fetch("http://127.0.0.1/json/state", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ on: false }) // Turn off after timer
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
-        .then(data => console.log('2 Timer Turn Off Success:', data))
-        .catch(error => console.error('2 Timer Turn Off Error:', error));
-    }, delayInMs); // Set timeout for 2 hours
-});
-
-
-
-					<!-- COLOR1 and COLOR2 BUTTONS -->
-// Global Variables
-let currentColor = null; // Temporary storage for the most recent color
-let color1 = null; // Stored HEX for Color 1
-let color2 = null; // Stored HEX for Color 2
-
-// Event Listener for Remote Color Buttons
-document.querySelectorAll('.colorButton').forEach(button => {
-   button.addEventListener('click', function () {
-       currentColor = this.getAttribute('data-hex'); // Capture HEX from the button
-        console.log('Current Color Selected:', currentColor);
-    });
- });
-
-// Event Listener for Color 1 Button
-document.getElementById('color1Button').addEventListener('click', function () {
-    if (currentColor) {
-        color1 = currentColor; // Store the current color as color1
-        document.getElementById('color1Status').textContent = `Color 1 Set to ${color1}`;
-        console.log('Color 1 Stored:', color1);
-    } else {
-        alert('Please select a color first!');
-    }
-});
-
-// Event Listener for Color 2 Button
-document.getElementById('color2Button').addEventListener('click', function () {
-    if (currentColor) {
-        color2 = currentColor; // Store the current color as color2
-        document.getElementById('color2Status').textContent = `Color 2 Set to ${color2}`;
-        console.log('Color 2 Stored:', color2);
-
-        // Send JSON Payload
-        fetch('http://127.0.0.1/json/state', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":5,"spc":5,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"red","col":[color1,000000,000000],"fx":0,"sx":128,"ix":128,"pal":11,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":1,"start":5,"stop":149,"grp":5,"spc":5,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"other","col":[color2,000000,000000],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0}]}),
-        })
-            .then(response => response.json())
-            .then(data => console.log('JSON Sent:', data))
-            .catch(error => console.error('Error:', error));
-    } else {
-        alert('Please select a color first!');
-    }
-});
-
-
-
-					<!-- MODES BUTTON -->
- //  variables for each mode press
-        const modePayloads = [
-        	// Twinkle
-            JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"red","col":[[255,0,0],[0,0,0],[0,0,0]],"fx":74,"sx":11,"ix":33,"pal":11,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}), // Mode 1 payload
-            // Multi Fade
-            JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"red","col":[[255,0,0],[0,0,0],[0,0,0]],"fx":80,"sx":20,"ix":210,"pal":12,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}), // Mode 2 payload
-            // Christmas
-            JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"red","col":[[255,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":1,"start":5,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"white","col":[[255,255,255],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":2,"start":10,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"blue","col":[[8,255,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0}]}), // Mode 3 payload
-            // St Patriks Day
-            JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"green","col":[[8,255,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":1,"start":5,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"dk green","col":[[8,255,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":2,"start":10,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"white","col":[[255,255,255],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0}]}), // Mode 4 payload
-            // Red White Blue
-            JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"red","col":[[255,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":1,"start":5,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"white","col":[[255,255,255],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":2,"start":10,"stop":149,"grp":5,"spc":10,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"blue","col":[[0,0,255],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0}]}), // Mode 5 payload
-            // Fall
-            JSON.stringify({"on":true,"bri":128,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":5,"spc":5,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"Orange","col":[[255,106,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":1,"start":5,"stop":149,"grp":5,"spc":5,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"Light Orange","col":[[255,170,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0}]}), // Mode 6 payload
-            // Spring
-            JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":5,"spc":15,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"teal","col":[[8,251,255],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":1,"start":5,"stop":149,"grp":5,"spc":15,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"purple","col":[[170,0,255],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":2,"start":10,"stop":149,"grp":5,"spc":15,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"green","col":[[38,255,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"id":3,"start":15,"stop":149,"grp":5,"spc":15,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"yellow","col":[[255,200,0],[0,0,0],[0,0,0]],"fx":0,"sx":128,"ix":128,"pal":0,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0}]}), // Mode 7 payload
-            // Multi
-            JSON.stringify({"on":true,"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"red","col":[[255,0,0],[0,0,0],[0,0,0]],"fx":102,"sx":40,"ix":80,"pal":12,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]})  // Mode 8 payload
-        ];
-        let currentMode = 0; // Counter to track the current mode
-
-        // Event listener for the Modes button
-        document.getElementById('modesButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default button behavior
-
-            // Fetch the current payload based on the current mode
-            const payload = modePayloads[currentMode];
-
-            // Send the JSON payload via fetch
-            fetch("http://127.0.0.1/json/state", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: payload
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .then(data => {
-                console.log(`Mode ${currentMode + 1} Success:`, data);
-                //document.getElementById('modesStatus').innerText = `Mode ${currentMode + 1} activated!`;
-            })
-            .catch(error => {
-                console.error(`Mode ${currentMode + 1} Error:`, error);
-                //document.getElementById('modesStatus').innerText = `Error activating Mode ${currentMode + 1}`;
-            });
-
-            // Increment the mode counter and cycle back to 0 after 8
-            currentMode = (currentMode + 1) % modePayloads.length;
-        });
-        
-
-					<!-- Timer Button for 4 Hours -->
-document.getElementById('4hrTimerButton').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default anchor behavior
-
-    const delayInMs = 14400000; // 4 hours in milliseconds
-
-    console.log('Timer set for 2 hours'); // Log timer start
-    setTimeout(() => {
-        fetch("http://127.0.0.1/json/state", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ on: false }) // Turn off after timer
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
-        .then(data => console.log('4hr Timer Turn Off Success:', data))
-        .catch(error => console.error('4hr Timer Turn Off Error:', error));
-    }, delayInMs); // Set timeout for 2 hours
-});
-
-
-					<!-- UE Red Color Button -->
-document.getElementById('UERedButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["B6000D",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('UE Red Color Success:', data))
-    .catch(error => console.error('UE Red Color Error:', error));
-});
-
-
-					<!-- Spanish Veridian Color Button -->
-document.getElementById('spanVeridButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["008258",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Spanish Veridian Color Success:', data))
-    .catch(error => console.error('Spanish Veridian Color Error:', error));
-});
-
-
-					<!-- Resolution Blue Color Button -->
-document.getElementById('resoBlueButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["001F7B",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Resolution Blue Color Success:', data))
-    .catch(error => console.error('Resolution Blue Color Error:', error));
-});
-
-
-					<!-- Red Labeled Button -->
-document.getElementById('altRedButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["ff0000",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Red Color Success:', data))
-    .catch(error => console.error('Red Color Error:', error));
-});
-
-
-					<!-- Flame Color Button -->
-document.getElementById('flameButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["E24D00",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Flame Color Success:', data))
-    .catch(error => console.error('Flame Color Error:', error));
-});
-
-
-					<!-- Blue Danube Color Button -->
-document.getElementById('blueDanButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["008AB6",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Blue Danube Color Success:', data))
-    .catch(error => console.error('Blue Danube Color Error:', error));
-});
-
-
-					<!-- Navy Blue Bellflower Color Button -->
-document.getElementById('navyBlueBellButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["181E48",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Navy Blue Bellflower Color Success:', data))
-    .catch(error => console.error('Navy Blue Bellflower Color Error:', error));
-});
-
-
-					<!-- Green Labeled Button -->
-document.getElementById('altGreenButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["008000",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Green Color Success:', data))
-    .catch(error => console.error('Green Color Error:', error));
-});
-
-
-					<!-- Harvest Gold Color Button -->
-document.getElementById('harvestGoldButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["E59000",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Harvest Gold Color Success:', data))
-    .catch(error => console.error('Harvest Gold Color Error:', error));
-});
-
-
-					<!-- Honolulu Blue Color Button -->
-document.getElementById('honoBlueButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["046EAD",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Honolulu Blue Color Success:', data))
-    .catch(error => console.error('Honolulu Blue Color Error:', error));
-});
-
-
-					<!-- Dark Purple Color Button -->
-document.getElementById('darkPurpleButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["391D40",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Dark Purple Color Success:', data))
-    .catch(error => console.error('Dark Purple Color Error:', error));
-});
-
-
-					<!-- Blue Labeled Button -->
-document.getElementById('altBlueButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["0000ff",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Blue Color Success:', data))
-    .catch(error => console.error('Blue Color Error:', error));
-});
-
-
-					<!-- Citrine Color Button -->
-document.getElementById('citrineButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["E4CB00",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Citrine Color Success:', data))
-    .catch(error => console.error('Citrine Color Error:', error));
-});
-
-
-					<!-- BDazzled Blue Color Button -->
-document.getElementById('bdazzledButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["01568D",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('BDazzled Blue Color  Success:', data))
-    .catch(error => console.error('BDazzled Blue Color  Error:', error));
-});
-
-
-					<!-- Magenta Color Button -->
-document.getElementById('magentaButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["C10F76",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('Magenta Color Success:', data))
-    .catch(error => console.error('Magenta Color Error:', error));
-});
-
-
-					<!-- White Labeled Button -->
-document.getElementById('whiteButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"bri":255,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"set":0,"n":"","col":["ffffff",000000,000000], "fx":0,"sx":128,"ix":128,"pal":50,"c1":128,"c2":128,"c3":16,"sel":true,"rev":false,"mi":false,"o1":false,"o2":false,"o3":false,"si":0,"m12":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}) // Payload for Fade
-    })
-    .then(response => response.json())
-    .then(data => console.log('White Color Success:', data))
-    .catch(error => console.error('White Color Error:', error));
-});
-
-
-
-
-				</script>
-			</body>
-		</html>
-
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Remote Control Interface</title>
+        <link rel="stylesheet" href="remote.css">
+    </head>
+
+    <body>
+        <div class="rounded-rectangle">
+            <button id="helpButton" class="help-icon">?</button>
+        </div>
+        <div id="overlay" class="overlay">
+            <div class="overlay-content">
+                <h2>Controls</h2>
+                <p>
+                    <b>Fade:</b> Lights fade in and out through all of the colors in a random pattern.
+                </p>
+                <p>
+                    <b>Dimming:</b> Lights dim through 10 steps then return to full brightness.
+                </p>
+                <p>
+                    <b>Strobe:</b> Lights strobe through all of the colors in a random pattern.
+                </p>
+                <p>
+                    <b>2hr Timer:</b> Activate a two-hour countdown until lights turn off
+                </p>
+                <p>
+                    <b>4hr Timer:</b> Activate a four-hour countdown until lights turn off
+                </p>
+                <p>
+                    <b>Dual-Color Selection Feature</b>
+                </p>
+                <p>
+                    <b>Color 1:</b> Select a color from the color pad, press Color 1
+                </p>
+                <p>
+                    <b>Color 2:</b> Select a color from the color pad, press Color 2
+                </p>
+                <p>
+                    <b>Modes:</b> Press repeatedly to cycle through the following preset modes:
+                </p>
+                <p>Twinkle, Multi Fade, Christmas, St. Patrick's Day, Red White Blue, Fall, Spring, Multi</p>
+                <button id="closeOverlay" class="close-overlay">Close</button>
+            </div>
+        </div>
+        <div class="remote">
+            <div class="on-off">
+                <button class="button red" id="onOffButton">On/Off</button>
+            </div>
+            <div class="controlsR1">
+                <!-- Control Pad -->
+                <!-- Row 1 -->
+                <button class="button" id="fadeButton">Fade</button>
+                <button class="button" id="dimmingButton">Dimming</button>
+                <button class="button" id="strobeButton">Strobe</button>
+            </div>
+            <div class="controlsR2">
+                <!-- Row 2 -->
+                <button class="button" id="color1Button">Color1</button>
+                <div id="color1Status" class="status"></div>
+                <button class="button blank"></button>
+                <button class="button" id="2hrTimerButton">2 hr Timer</button>
+            </div>
+            <div class="controlsR3">
+                <!-- Row 3 -->
+                <button class="button" id="modesButton">Modes</button>
+                <div id="modesStatus" class="status"></div>
+            </div>
+            <div class="controlsR4">
+                <!-- Row 4 -->
+                <button class="button" id="color2Button">Color2</button>
+                <div id="color2Status" class="status"></div>
+                <button class="button blank"></button>
+                <button class="button" id="4hrTimerButton">4 hr Timer</button>
+            </div>
+            <div class="colorpad">
+                <!-- Color pad, 4 across -->
+                <!-- Row 1 -->
+                <button class="button UE-Red colorButton" data-hex="B6000D" id="UERedButton"></button>
+                <button class="button spanish-viridian colorButton" data-hex="008258" id="spanVeridButton"></button>
+                <button class="button resolution-blue colorButton" data-hex="001F7B" id="resoBlueButton"></button>
+                <button class="buttonALT red colorButton" data-hex="ff0000" id="altRedButton">Red</button>
+                <!-- Row 2 -->
+                <button class="button flame colorButton" data-hex="E24D00" id="flameButton"></button>
+                <button class="button blue-danube colorButton" data-hex="008AB6" id="blueDanButton"></button>
+                <button class="button navy-blue-bellflower colorButton" data-hex="181E48" id="navyBlueBellButton"></button>
+                <button class="buttonALT green colorButton" data-hex="008000" id="altGreenButton">Green</button>
+                <!-- Row 3 -->
+                <button class="button harvest-gold colorButton" data-hex="E59000" id="harvestGoldButton"></button>
+                <button class="button honolulu-blue colorButton" data-hex="046EAD" id="honoBlueButton"></button>
+                <button class="button dark-purple colorButton" data-hex="391D40" id="darkPurpleButton"></button>
+                <button class="buttonALT blue colorButton" data-hex="0000ff" id="altBlueButton">Blue</button>
+                <!-- Row 4 -->
+                <button class="button citrine colorButton" data-hex="E4CB00" id="citrineButton"></button>
+                <button class="button bdazzled-blue colorButton" data-hex="01568D" id="bdazzledButton"></button>
+                <button class="button magenta colorButton" data-hex="C10F76" id="magentaButton"></button>
+                <button class="button white colorButton" data-hex="ffffff" id="whiteButton">White</button>
+            </div>
+        </div>
+
+        <script src="remote.js"></script>
+    </body>
+</html>
