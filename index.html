@@ -1,0 +1,163 @@
+<!--
+Enbrighten Remote - Web Based for WLED
+=====================================================
+Requirements: 
+  A webserver
+  If you are using ESP32 stle board with WLED, this provides you with direct REST API access.
+  The API endpoint (WLED) supports Cross-Origin Resource Sharing (CORS) requests from your browser.  
+    This allows the browser to make requests directly to the device without requiring an 
+    intermediary (like Flask).
+  If the device doesn’t provide a direct REST API, you might need Flask to build a backend 
+    that acts as a bridge between the browser and the device.
+  This is all designed to run LOCALLY (e.g. friends come over, scan a QR code, the local 
+    remote-control appears on phone, people can change colors)
+    
+Why the Embrighten "Cafelights" remote?
+=====================================================
+WLED, to my knowledge, provides no kiosk mode, or no multi user support.  This means family members
+are greeted with the WLED web interface.  Someone who just wants mood lighting for a small gathering
+needs to navigate through the endless customization for lights, and has access to admin functions.
+
+Also to my knowledge, there is no bluetooth/rf interface to interact with an ESP32 style board.  
+
+We have the Enbrighten Café Lights outside.  The remote control is super simple, can do just a handful of 
+predefined effects, and offers 1 piece of customization.
+
+The project: literally replicate the functionality of the Enbrighten Café Lights remote control so that
+anyone using this web interface can simply tap something, and the lights do that thing.
+
+The Enbrighten Café Lights remote control fucntions
+=====================================================
+On / Off: self explanitory.  State is stored so it knows when the lights are on and off.  Making this button a toggle.
+Fade: The lights will fade in and out through all of the colors in a random pattern.
+Dimming: Press the dimming button to choose one of 10 different light levels.  This works, but not as well as the real lights.  
+      With WLED you don't notice a brightness drop from 255 to 230 very much.  Each press drops brightness down about 25
+      points.  You notice the changes after a few presses.  After 10 presses you go back to 255.
+Strobe:  The lights will strobe through all of the colors in a random pattern.  WLED's strobe is a bit more "Rave / Club" strobe.
+2hr Timer: By pressing the 2 Hour Timer button, you will activate a two-hour countdown until lights turn off.
+4hr Timer: By pressing the 4 Hour Timer button, you will activate a four-hour countdown until lights turn off.
+Dual-Color Selection Feature
+  Color 1:  Select a color from the color pad, press Color 1
+  Color 2,  select a color from the color pad, press Color 2
+    This is just a segment.  Color1 and Color2 become varaibles.  These 2 values are thrown in a string with a predefined segment
+    length of 20 each 
+Modes (with the official Embrighted color effect defination): 
+Press the “modes” button repeatedly to cycle through the following preset modes:
+Twinkle: A rainbow of colors, fading slowly and changing colors
+Multi Fade: An extremely slow fade of each bulb through all of the colors
+Christmas: Red, White, Green, (repeat)
+St. Patrick’s Day: Green, Green, White, (repeat)
+Red, white and blue: Red, White, Blue, (repeat)
+Fall: Orange, Light Orange, (repeat)
+Spring: Teal, Purple, Grteen, Yellow, (repeat)
+Multi: all colors on the remote starting at upper-left, moving down, and ending up at pink
+
+Some are obvious segments.  Some are up for interpretation (e.g. Twinkle and multi fade).  
+"Multi" would require 12 segments.  I'm not that psychotic. I just picked some multi-color preset and set speed to 0.
+  
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Remote Control Interface</title>
+        <link rel="stylesheet" href="remote.css">
+    </head>
+
+    <body>
+        <div class="rounded-rectangle">
+            <button id="helpButton" class="help-icon">?</button>
+        </div>
+        <div id="overlay" class="overlay">
+            <div class="overlay-content">
+                <h2>Controls</h2>
+                <p>
+                    <b>Fade:</b> Lights fade in and out through all of the colors in a random pattern.
+                </p>
+                <p>
+                    <b>Dimming:</b> Lights dim through 10 steps then return to full brightness.
+                </p>
+                <p>
+                    <b>Strobe:</b> Lights strobe through all of the colors in a random pattern.
+                </p>
+                <p>
+                    <b>2hr Timer:</b> Activate a two-hour countdown until lights turn off
+                </p>
+                <p>
+                    <b>4hr Timer:</b> Activate a four-hour countdown until lights turn off
+                </p>
+                <p>
+                    <b>Dual-Color Selection Feature</b>
+                </p>
+                <p>
+                    <b>Color 1:</b> Select a color from the color pad, press Color 1
+                </p>
+                <p>
+                    <b>Color 2:</b> Select a color from the color pad, press Color 2
+                </p>
+                <p>
+                    <b>Modes:</b> Press repeatedly to cycle through the following preset modes:
+                </p>
+                <p>Twinkle, Multi Fade, Christmas, St. Patrick's Day, Red White Blue, Fall, Spring, Multi</p>
+                <button id="closeOverlay" class="close-overlay">Close</button>
+            </div>
+        </div>
+        <div class="remote">
+            <div class="on-off">
+                <button class="button red" id="onOffButton">On/Off</button>
+            </div>
+            <div class="controlsR1">
+                <!-- Control Pad -->
+                <!-- Row 1 -->
+                <button class="button" id="fadeButton">Fade</button>
+                <button class="button" id="dimmingButton">Dimming</button>
+                <button class="button" id="strobeButton">Strobe</button>
+            </div>
+            <div class="controlsR2">
+                <!-- Row 2 -->
+                <button class="button" id="color1Button">Color1</button>
+                <div id="color1Status" class="status"></div>
+                <button class="button blank"></button>
+                <button class="button" id="2hrTimerButton">2 hr Timer</button>
+            </div>
+            <div class="controlsR3">
+                <!-- Row 3 -->
+                <button class="button" id="modesButton">Modes</button>
+                <div id="modesStatus" class="status"></div>
+            </div>
+            <div class="controlsR4">
+                <!-- Row 4 -->
+                <button class="button" id="color2Button">Color2</button>
+                <div id="color2Status" class="status"></div>
+                <button class="button blank"></button>
+                <button class="button" id="4hrTimerButton">4 hr Timer</button>
+            </div>
+            <div class="colorpad">
+                <!-- Color pad, 4 across -->
+                <!-- Row 1 -->
+                <button class="button UE-Red colorButton" data-hex="B6000D" id="UERedButton"></button>
+                <button class="button spanish-viridian colorButton" data-hex="008258" id="spanVeridButton"></button>
+                <button class="button resolution-blue colorButton" data-hex="001F7B" id="resoBlueButton"></button>
+                <button class="buttonALT red colorButton" data-hex="ff0000" id="altRedButton">Red</button>
+                <!-- Row 2 -->
+                <button class="button flame colorButton" data-hex="E24D00" id="flameButton"></button>
+                <button class="button blue-danube colorButton" data-hex="008AB6" id="blueDanButton"></button>
+                <button class="button navy-blue-bellflower colorButton" data-hex="181E48" id="navyBlueBellButton"></button>
+                <button class="buttonALT green colorButton" data-hex="008000" id="altGreenButton">Green</button>
+                <!-- Row 3 -->
+                <button class="button harvest-gold colorButton" data-hex="E59000" id="harvestGoldButton"></button>
+                <button class="button honolulu-blue colorButton" data-hex="046EAD" id="honoBlueButton"></button>
+                <button class="button dark-purple colorButton" data-hex="391D40" id="darkPurpleButton"></button>
+                <button class="buttonALT blue colorButton" data-hex="0000ff" id="altBlueButton">Blue</button>
+                <!-- Row 4 -->
+                <button class="button citrine colorButton" data-hex="E4CB00" id="citrineButton"></button>
+                <button class="button bdazzled-blue colorButton" data-hex="01568D" id="bdazzledButton"></button>
+                <button class="button magenta colorButton" data-hex="C10F76" id="magentaButton"></button>
+                <button class="button white colorButton" data-hex="ffffff" id="whiteButton">White</button>
+            </div>
+        </div>
+
+        <script src="remote.js"></script>
+    </body>
+</html>
