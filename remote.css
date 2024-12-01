@@ -1,0 +1,180 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  margin: 0;
+}
+.remote {
+  background-color: black;
+  border-radius: 25px;
+  width: 240px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 50px;
+  font-size: 12px;
+  text-decoration: none;
+  color: black;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  background-color: #fff;
+  border: none;
+}
+
+
+.buttonALT {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 50px;
+  font-size: 12px;
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  background-color: #fff;
+  border: none;
+}
+.button:active {
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+}
+.button.blank { background-color: #000000; }
+.button.red { background-color: red; }
+.buttonALT.red { background-color: red; }
+.buttonALT.green { background-color: green; }
+.buttonALT.blue { background-color: blue; }
+.button.white { background-color: white; color: black; }
+.button.orange { background-color: orange; }
+.button.light-blue { background-color: #00bfff; }
+.button.purple { background-color: purple; }
+.button.yellow { background-color: yellow; color: black; }
+.button.UE-Red { background-color: #B6000D; }
+.button.spanish-viridian { background-color: #008258; }
+.button.resolution-blue { background-color: #001F7B; }
+.button.flame { background-color: #E24D00; }
+.button.blue-danube { background-color: #008AB6; }
+.button.navy-blue-bellflower { background-color: #181E48; }
+.button.harvest-gold { background-color: #E59000; }
+.button.honolulu-blue { background-color: #046EAD; }
+.button.dark-purple { background-color: #391D40; }
+.button.citrine { background-color: #E4CB00; }
+.button.bdazzled-blue { background-color: #01568D; }
+.button.magenta { background-color: #C10F76; }
+.label {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: white;
+  font-size: 14px;
+}
+.on-off {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.controlsR1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.controlsR2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.controlsR3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.controlsR4 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.colorpad {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+// help icon
+/* Rounded rectangle container */
+.rounded-rectangle {
+position: relative;
+width: 300px;
+height: 200px;
+border-radius: 15px;
+background-color: #f0f0f0;
+padding: 20px;
+margin: 20px auto;
+}
+
+/* Help icon in the upper-right corner */
+.help-icon {
+position: absolute;
+top: 10px;
+right: 750px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 50%;
+width: 30px;
+height: 30px;
+font-size: 18px;
+font-weight: bold;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+/* Help button Overlay styles */
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.6); /* Slight transparency */
+display: none; /* Hidden by default */
+align-items: center;
+justify-content: center;
+}
+
+/* help button Content inside the overlay */
+.overlay-content {
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+max-width: 200px;
+width: 90%;
+font-size: 12px;
+}
+
+/* Close overlay button */
+.close-overlay {
+margin-top: 10px;
+padding: 10px 20px;
+border: none;
+border-radius: 5px;
+background-color: #007bff;
+color: white;
+font-size: 12px;
+cursor: pointer;
+}
