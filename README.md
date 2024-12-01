@@ -1,2 +1,2 @@
-# wled-remote
-WLED Remote
+# WLED Remote Project
+
