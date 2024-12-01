@@ -17,6 +17,19 @@ closeOverlay.addEventListener('click', () => {
 // On Off Button Toggle
 let isOn = false; // Track the current state (off by default)
 
+/**
+ * Makes a POST request to the specified endpoint with the given payload.
+ * 
+ * @param {string} endpoint - The URL to send the POST request to.
+ * @param {Object} payload - The data to send in the body of the POST request. This will be serialized to JSON.
+ * @returns {Promise<Object>} A promise that resolves to the parsed JSON data from the response if successful.
+ * @throws {Error} Throws an error if the response is not OK (i.e., status code is not 2xx) or if there is an issue with the fetch request.
+ * 
+ * @example
+ * makePostRequest('http://example.com/api', { key: 'value' })
+ *   .then(data => console.log(data))
+ *   .catch(error => console.error('Error:', error));
+ */
 function makePostRequest(endpoint = "http://127.0.0.1:8080/json/state", payload) {
     return fetch(endpoint, {
         method: "POST",
@@ -29,7 +42,7 @@ function makePostRequest(endpoint = "http://127.0.0.1:8080/json/state", payload)
     }).catch(error => console.error('makePostRequest :: Error:', error));
 }
 
-// SetUp Action Button function
+// SetUp Action Button function - in progress
 function setupActionButton(buttonId, endpoint, payload) {
 
     const button = document.getElementById(buttonId);
