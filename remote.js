@@ -30,7 +30,7 @@ let isOn = false; // Track the current state (off by default)
  *   .then(data => console.log(data))
  *   .catch(error => console.error('Error:', error));
  */
-function makePostRequest(endpoint = "http://127.0.0.1:8080/json/state", payload) {
+function makePostRequest(payload, endpoint = "http://127.0.0.1:8080/json/state") {
     return fetch(endpoint, {
         method: "POST",
         headers: {
@@ -49,9 +49,9 @@ function setupActionButton(buttonId, endpoint, payload) {
     button.addEventListener('click', function (event) {
         event.preventDefault(); // Prevent default anchor behavior
 
-        makePostRequest(endpoint, payload)  // Call the POST request
+        makePostRequest(payload, endpoint)  // Call the POST request
             .then(data => {
-                console.log('Success:', data);  // Log the returned data
+                console.log(buttonId + ' Success:', data);  // Log the returned data
                 //   if (onSuccess) {
                 //     onSuccess(data);  // Call the onSuccess callback if provided
                 //   }
@@ -59,36 +59,57 @@ function setupActionButton(buttonId, endpoint, payload) {
     });
 }
 
-// On/Off Button Toggle
+// On-Off Button Toggle
 document.getElementById('onOffButton').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent default anchor behavior
 
     // Determine the new state based on the current state
     const newState = isOn ? { on: false } : { on: true };
 
-    makePostRequest(undefined, newState) // endpoint 'undefined' so default value will be used
+    makePostRequest(newState, undefined) // endpoint 'undefined' so default value will be used
         .then(data => {
-            console.log('Success:', data);  // Log the returned data
+            console.log('onOffButton Success:', data);  // Log the returned data
             isOn = !isOn; // Update the "isOn" state after a successful response
             this.textContent = isOn ? "Turn Off" : "Turn On"; // Update button text
         });
 });
 
 
+
 // Fade Button
-document.getElementById('fadeButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
+// Payload for Fade
+const fadePayload = { 
+    "on": true, 
+    "bri": 255, 
+    "inputLevel": 128, 
+    "transition": 7, 
+    "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, 
+            "col": [[255, 41, 251], [0, 0, 0], [0, 0, 0]], "fx": 8, "sx": 41, "ix": 94, "c1x": 128, "c2x": 128, "c3x": 128, 
+            "pal": 11, "sel": true, "rev": false, "rev2D": false, "mi": false, "rot2D": false
         },
-        body: JSON.stringify({ "on": true, "bri": 255, "inputLevel": 128, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "col": [[255, 41, 251], [0, 0, 0], [0, 0, 0]], "fx": 8, "sx": 41, "ix": 94, "c1x": 128, "c2x": 128, "c3x": 128, "pal": 11, "sel": true, "rev": false, "rev2D": false, "mi": false, "rot2D": false }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Fade Success:', data))
-        .catch(error => console.error('Fade Error:', error));
-});
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 },
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 },
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }
+    ] 
+}
+setupActionButton('fadeButton', undefined, fadePayload)
+
+// document.getElementById('fadeButton').addEventListener('click', function (event) {
+//     event.preventDefault();
+//     fetch("http://127.0.0.1:8080/json/state", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({ "on": true, "bri": 255, "inputLevel": 128, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "col": [[255, 41, 251], [0, 0, 0], [0, 0, 0]], "fx": 8, "sx": 41, "ix": 94, "c1x": 128, "c2x": 128, "c3x": 128, "pal": 11, "sel": true, "rev": false, "rev2D": false, "mi": false, "rot2D": false }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
+//     })
+//         .then(response => response.json())
+//         .then(data => console.log('Fade Success:', data))
+//         .catch(error => console.error('Fade Error:', error));
+// });
 
 
 // Dimming Button
@@ -108,61 +129,46 @@ document.getElementById('dimmingButton').addEventListener('click', function (eve
         currentBrightness = 255;
     }
 
-    // Make the POST request with the updated brightness value
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": currentBrightness }) // Dynamic brightness value
-    })
-        .then(response => response.json())
-        .then(data => console.log('Dimming Success:', data))
-        .catch(error => console.error('Dimming Error:', error));
+    const dimmingPayload = { "bri": currentBrightness }
+    makePostRequest(dimmingPayload, undefined) // endpoint 'undefined' so default value will be used
+    .then(data => {
+        console.log('dimmingButton Success:', data);  // Log the returned data
+
+    });
 });
 
 
 // Strobe Button
-document.getElementById('strobeButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": [[0, 0, 255], [0, 0, 0], [0, 0, 0]], "fx": 24, "sx": 214, "ix": 128, "pal": 11, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Strobe Success:', data))
-        .catch(error => console.error('Strobe Error:', error));
-});
-
+const strobePayload = { 
+    "on": true, "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, 
+            "set": 0, "n": "", "col": [[0, 0, 255], [0, 0, 0], [0, 0, 0]], "fx": 24, "sx": 214, "ix": 128, "pal": 11, "c1": 128, 
+            "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 
+        }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }
+    ]
+}
+setupActionButton('strobeButton', undefined, strobePayload)
 
 
 // Timer Button for 2 Hours
 document.getElementById('2hrTimerButton').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent default anchor behavior
-
+    
     const delayInMs = 7200000; // 2 hours in milliseconds
+    const timerPayload2hr = { on: false } // Turn off after timer
 
     console.log('Timer set for 2 hours'); // Log timer start
     setTimeout(() => {
-        fetch("http://127.0.0.1:8080/json/state", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ on: false }) // Turn off after timer
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .then(data => console.log('2 Timer Turn Off Success:', data))
-            .catch(error => console.error('2 Timer Turn Off Error:', error));
+        makePostRequest(timerPayload2hr, undefined) // endpoint 'undefined' so default value will be used
+        .then(data => {
+            console.log('2hrTimerButton Success:', data);  // Log the returned data
+    
+        });
     }, delayInMs); // Set timeout for 2 hours
 });
 
@@ -200,17 +206,25 @@ document.getElementById('color2Button').addEventListener('click', function () {
         document.getElementById('color2Status').textContent = `Color 2 Set to ${color2}`;
         console.log('Color 2 Stored:', color2);
 
-        // Send JSON Payload
-        fetch('http://127.0.0.1:8080/json/state', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", "col": [color1,000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 11, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "other", "col": [color2,000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] }),
-        })
-            .then(response => response.json())
-            .then(data => console.log('JSON Sent:', data))
-            .catch(error => console.error('Error:', error));
+        const color2ButtonPayload = { 
+            "on": true, "bri": 255, "transition": 7, "mainseg": 0, 
+            "seg": [
+                { "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, 
+                    "bri": 255, "cct": 127, "set": 0, "n": "red", "col": [color1,000000,000000], "fx": 0, "sx": 128, 
+                    "ix": 128, "pal": 11, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, 
+                    "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 
+                }, 
+                { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, 
+                    "bri": 255, "cct": 127, "set": 0, "n": "other", "col": [color2,000000,000000], "fx": 0, "sx": 128, 
+                    "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, 
+                    "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 
+                }
+            ]
+        }
+        makePostRequest(color2ButtonPayload, undefined) // endpoint 'undefined' so default value will be used
+        .then(data => {
+            console.log('color2Button Success:', data);  // Log the returned data
+        });
     } else {
         alert('Please select a color first!');
     }
