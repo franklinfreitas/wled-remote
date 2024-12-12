@@ -177,7 +177,7 @@ document.querySelectorAll('.colorButton').forEach(button => {
 document.getElementById('color1Button').addEventListener('click', function () {
     if (currentColor) {
         color1 = currentColor; // Store the current color as color1
-        document.getElementById('color1Status').textContent = `Color 1 Set to ${color1}`;
+        // document.getElementById('color1Status').textContent = `Color 1 Set to ${color1}`;
         console.log('Color 1 Stored:', color1);
     } else {
         alert('Please select a color first!');
@@ -188,7 +188,7 @@ document.getElementById('color1Button').addEventListener('click', function () {
 document.getElementById('color2Button').addEventListener('click', function () {
     if (currentColor) {
         color2 = currentColor; // Store the current color as color2
-        document.getElementById('color2Status').textContent = `Color 2 Set to ${color2}`;
+        // document.getElementById('color2Status').textContent = `Color 2 Set to ${color2}`;
         console.log('Color 2 Stored:', color2);
 
         const color2ButtonPayload = { 
