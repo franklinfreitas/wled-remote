@@ -97,21 +97,6 @@ const fadePayload = {
 }
 setupActionButton('fadeButton', undefined, fadePayload)
 
-// document.getElementById('fadeButton').addEventListener('click', function (event) {
-//     event.preventDefault();
-//     fetch("http://127.0.0.1:8080/json/state", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ "on": true, "bri": 255, "inputLevel": 128, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "col": [[255, 41, 251], [0, 0, 0], [0, 0, 0]], "fx": 8, "sx": 41, "ix": 94, "c1x": 128, "c2x": 128, "c3x": 128, "pal": 11, "sel": true, "rev": false, "rev2D": false, "mi": false, "rot2D": false }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-//     })
-//         .then(response => response.json())
-//         .then(data => console.log('Fade Success:', data))
-//         .catch(error => console.error('Fade Error:', error));
-// });
-
-
 // Dimming Button
 // Initialize the brightness variable
 let currentBrightness = 255; // Start at the maximum brightness
