@@ -95,7 +95,7 @@ const fadePayload = {
         { "stop": 0 }
     ] 
 }
-setupActionButton('fadeButton', undefined, fadePayload)
+setupActionButton('fadeButton', undefined, fadePayload);
 
 // Dimming Button
 // Initialize the brightness variable
@@ -306,256 +306,156 @@ document.getElementById('modesButton').addEventListener('click', function (event
 
 
 // UE Red Color Button
-document.getElementById('UERedButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["B6000D",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('UE Red Color Success:', data))
-        .catch(error => console.error('UE Red Color Error:', error));
-});
-
+const ueRedColorPayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["B6000D",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+        ]
+    };
+setupActionButton('UERedButton', undefined, ueRedColorPayload);
 
 // Spanish Veridian Color Button
-document.getElementById('spanVeridButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["008258",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Spanish Veridian Color Success:', data))
-        .catch(error => console.error('Spanish Veridian Color Error:', error));
-});
+const spanVeridPayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["008258",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ] 
+};
+setupActionButton('spanVeridButton', undefined, spanVeridPayload);
 
 
 // Resolution Blue Color Button
-document.getElementById('resoBlueButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["001F7B",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Resolution Blue Color Success:', data))
-        .catch(error => console.error('Resolution Blue Color Error:', error));
-});
+const resoBluePayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["001F7B",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ] 
+};
+setupActionButton('resoBlueButton', undefined, resoBluePayload);
 
 
 // Red Labeled Button
-document.getElementById('altRedButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["ff0000",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Red Color Success:', data))
-        .catch(error => console.error('Red Color Error:', error));
-});
+const altRedPayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["ff0000",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ]
+};
+setupActionButton('altRedButton', undefined, altRedPayload);
 
 
 // Flame Color Button
-document.getElementById('flameButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["E24D00",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Flame Color Success:', data))
-        .catch(error => console.error('Flame Color Error:', error));
-});
-
+const flamePayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["E24D00",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ] 
+};
+setupActionButton('flameButton', undefined, flamePayload);
 
 // Blue Danube Color Button
-document.getElementById('blueDanButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["008AB6",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Blue Danube Color Success:', data))
-        .catch(error => console.error('Blue Danube Color Error:', error));
-});
+const blueDanPayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["008AB6",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ]
+};
+setupActionButton('blueDanButton', undefined, blueDanPayload);
 
 
 // Navy Blue Bellflower Color Button
-document.getElementById('navyBlueBellButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["181E48",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Navy Blue Bellflower Color Success:', data))
-        .catch(error => console.error('Navy Blue Bellflower Color Error:', error));
-});
-
+const navyBlueBellPayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["181E48",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ]
+};
+setupActionButton('navyBlueBellButton', undefined, navyBlueBellPayload);
 
 // Green Labeled Button
-document.getElementById('altGreenButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["008000",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Green Color Success:', data))
-        .catch(error => console.error('Green Color Error:', error));
-});
-
+const altGreenPayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["008000",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ] 
+};
+setupActionButton('altGreenButton', undefined, altGreenPayload);
 
 // Harvest Gold Color Button
-document.getElementById('harvestGoldButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["E59000",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Harvest Gold Color Success:', data))
-        .catch(error => console.error('Harvest Gold Color Error:', error));
-});
+const harvestGoldPayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["E59000",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ]
+};
+setupActionButton('harvestGoldButton', undefined, harvestGoldPayload);
 
 
 // Honolulu Blue Color Button
-document.getElementById('honoBlueButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["046EAD",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Honolulu Blue Color Success:', data))
-        .catch(error => console.error('Honolulu Blue Color Error:', error));
-});
+const honoBluePayload = { "bri": 255, "transition": 7, "mainseg": 0, 
+    "seg": [
+        { "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["046EAD",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }
+    ]
+};
+setupActionButton('honoBlueButton', undefined, honoBluePayload);
 
 
 // Dark Purple Color Button
-document.getElementById('darkPurpleButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["391D40",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Dark Purple Color Success:', data))
-        .catch(error => console.error('Dark Purple Color Error:', error));
-});
+const darkPurplePayload = { "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["391D40",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] };
+setupActionButton('darkPurpleButton', undefined, darkPurplePayload);
 
 
 // Blue Labeled Button
-document.getElementById('altBlueButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["0000ff",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Blue Color Success:', data))
-        .catch(error => console.error('Blue Color Error:', error));
-});
+const altBluePayload = { "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["0000ff",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] };
+setupActionButton('altBlueButton', undefined, altBluePayload);
 
 
 // Citrine Color Button
-document.getElementById('citrineButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["E4CB00",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Citrine Color Success:', data))
-        .catch(error => console.error('Citrine Color Error:', error));
-});
+const citrinePayload = { "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["E4CB00",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] };
+setupActionButton('citrineButton', undefined, citrinePayload);
 
 
 // BDazzled Blue Color Button
-document.getElementById('bdazzledButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["01568D",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('BDazzled Blue Color  Success:', data))
-        .catch(error => console.error('BDazzled Blue Color  Error:', error));
-});
+const bdazzledPayload = { "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["01568D",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] };
+setupActionButton('bdazzledButton', undefined, bdazzledPayload);
 
 
 // Magenta Color Button
-document.getElementById('magentaButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["C10F76",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('Magenta Color Success:', data))
-        .catch(error => console.error('Magenta Color Error:', error));
-});
+const magentaPayload = { "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["C10F76",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] };
+setupActionButton('magentaButton', undefined, magentaPayload);
 
 
 // White Labeled Button
-document.getElementById('whiteButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["ffffff",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }) // Payload for Fade
-    })
-        .then(response => response.json())
-        .then(data => console.log('White Color Success:', data))
-        .catch(error => console.error('White Color Error:', error));
-});
+const whitePayload = { "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "", "col": ["ffffff",000000,000000], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] };
+setupActionButton('whiteButton', undefined, whitePayload);
