@@ -147,17 +147,29 @@ document.getElementById('2hrTimerButton').addEventListener('click', function (ev
     const delayInMs = 7200000; // 2 hours in milliseconds
     const timerPayload2hr = { on: false } // Turn off after timer
 
-    console.log('Timer set for 2 hours'); // Log timer start
+    console.log('Timer set for 2 hours');
     setTimeout(() => {
         makePostRequest(timerPayload2hr, undefined) // endpoint 'undefined' so default value will be used
         .then(data => {
             console.log('2hrTimerButton Success:', data);  // Log the returned data
-    
         });
     }, delayInMs); // Set timeout for 2 hours
 });
 
+// Timer Button for 4 Hours
+document.getElementById('4hrTimerButton').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default anchor behavior
 
+    const delayInMs = 14400000; // 4 hours in milliseconds
+
+    console.log('Timer set for 4 hours');
+    setTimeout(() => {
+        makePostRequest(timerPayload2hr, undefined) // endpoint 'undefined' so default value will be used
+        .then(data => {
+            console.log('4hrTimerButton Success:', data);  // Log the returned data
+        });
+    }, delayInMs); // Set timeout for 4 hours
+});
 
 // COLOR1 and COLOR2 BUTTONS
 // Global Variables
@@ -218,24 +230,61 @@ document.getElementById('color2Button').addEventListener('click', function () {
 
 
 // MODES BUTTON
-//  variables for each mode press
+// Variables for each mode press
 const modePayloads = [
-    // Twinkle
-    JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 74, "sx": 11, "ix": 33, "pal": 11, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }), // Mode 1 payload
-    // Multi Fade
-    JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 80, "sx": 20, "ix": 210, "pal": 12, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] }), // Mode 2 payload
-    // Christmas
-    JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "white", "col": [[255, 255, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "blue", "col": [[8, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] }), // Mode 3 payload
-    // St Patriks Day
-    JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "green", "col": [[8, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "dk green", "col": [[8, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "white", "col": [[255, 255, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] }), // Mode 4 payload
-    // Red White Blue
-    JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "white", "col": [[255, 255, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "blue", "col": [[0, 0, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] }), // Mode 5 payload
-    // Fall
-    JSON.stringify({ "on": true, "bri": 128, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "Orange", "col": [[255, 106, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "Light Orange", "col": [[255, 170, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] }), // Mode 6 payload
-    // Spring
-    JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "teal", "col": [[8, 251, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "purple", "col": [[170, 0, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "green", "col": [[38, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "id": 3, "start": 15, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "yellow", "col": [[255, 200, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] }), // Mode 7 payload
-    // Multi
-    JSON.stringify({ "on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 102, "sx": 40, "ix": 80, "pal": 12, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] })  // Mode 8 payload
+    // Twinkle - Mode 1 payload
+    {"on": true, "bri": 255, "transition": 7, "mainseg": 0, 
+        "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", 
+            "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 74, "sx": 11, "ix": 33, "pal": 11, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 },
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }]
+    },
+    // Multi Fade - Mode 2 payload
+    {"on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", 
+        "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 80, "sx": 20, "ix": 210, "pal": 12, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }]
+    },
+    // Christmas - Mode 3 payload
+    {"on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", 
+        "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "white", "col": [[255, 255, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "blue", "col": [[8, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] 
+    },
+    
+    // St Patriks Day - Mode 4 payload
+    {"on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "green", 
+        "col": [[8, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "dk green", "col": [[8, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "white", "col": [[255, 255, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] 
+    },
+    // Red White Blue - Mode 5 payload
+    {"on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", 
+        "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "white", "col": [[255, 255, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 10, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "blue", "col": [[0, 0, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] 
+    },
+    // Fall - Mode 6 payload
+    {"on": true, "bri": 128, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "Orange", 
+        "col": [[255, 106, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 5, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "Light Orange", "col": [[255, 170, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] 
+    },
+    // Spring - Mode 7 payload
+    {"on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "teal", 
+        "col": [[8, 251, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 50, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 1, "start": 5, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "purple", "col": [[170, 0, 255], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 2, "start": 10, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "green", "col": [[38, 255, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "id": 3, "start": 15, "stop": 149, "grp": 5, "spc": 15, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "yellow", "col": [[255, 200, 0], [0, 0, 0], [0, 0, 0]], "fx": 0, "sx": 128, "ix": 128, "pal": 0, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }] 
+    },
+    // Multi - Mode 8 payload
+    {"on": true, "bri": 255, "transition": 7, "mainseg": 0, "seg": [{ "id": 0, "start": 0, "stop": 149, "grp": 1, "spc": 0, "of": 0, "on": true, "frz": false, "bri": 255, "cct": 127, "set": 0, "n": "red", 
+        "col": [[255, 0, 0], [0, 0, 0], [0, 0, 0]], "fx": 102, "sx": 40, "ix": 80, "pal": 12, "c1": 128, "c2": 128, "c3": 16, "sel": true, "rev": false, "mi": false, "o1": false, "o2": false, "o3": false, "si": 0, "m12": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, 
+        { "stop": 0 }, { "stop": 0 }, { "stop": 0 }, { "stop": 0 }] 
+    }
 ];
 let currentMode = 0; // Counter to track the current mode
 
@@ -246,60 +295,13 @@ document.getElementById('modesButton').addEventListener('click', function (event
     // Fetch the current payload based on the current mode
     const payload = modePayloads[currentMode];
 
-    // Send the JSON payload via fetch
-    fetch("http://127.0.0.1:8080/json/state", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: payload
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
+    makePostRequest(payload, undefined) // endpoint 'undefined' so default value will be used
         .then(data => {
             console.log(`Mode ${currentMode + 1} Success:`, data);
-            //document.getElementById('modesStatus').innerText = `Mode ${currentMode + 1} activated!`;
-        })
-        .catch(error => {
-            console.error(`Mode ${currentMode + 1} Error:`, error);
-            //document.getElementById('modesStatus').innerText = `Error activating Mode ${currentMode + 1}`;
         });
 
     // Increment the mode counter and cycle back to 0 after 8
     currentMode = (currentMode + 1) % modePayloads.length;
-});
-
-
-// Timer Button for 4 Hours
-document.getElementById('4hrTimerButton').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent default anchor behavior
-
-    const delayInMs = 14400000; // 4 hours in milliseconds
-
-    console.log('Timer set for 2 hours'); // Log timer start
-    setTimeout(() => {
-        fetch("http://127.0.0.1:8080/json/state", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ on: false }) // Turn off after timer
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .then(data => console.log('4hr Timer Turn Off Success:', data))
-            .catch(error => console.error('4hr Timer Turn Off Error:', error));
-    }, delayInMs); // Set timeout for 2 hours
 });
 
 
