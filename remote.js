@@ -52,9 +52,6 @@ function setupActionButton(buttonId, endpoint, payload) {
         makePostRequest(payload, endpoint)  // Call the POST request
             .then(data => {
                 console.log(buttonId + ' Success:', data);  // Log the returned data
-                //   if (onSuccess) {
-                //     onSuccess(data);  // Call the onSuccess callback if provided
-                //   }
             });
     });
 }
